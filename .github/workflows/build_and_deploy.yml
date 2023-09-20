@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
-          cache: "npm"
+          cache: "yarn"
       - name: "Install the root tauri dependences"
         run: |
           yarn install
@@ -84,11 +84,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
-          cache: "npm"
+          cache: "yarn"
       - name: check toolchain version
         run: |
           node --version
-          npm --version
+          yarn --version
           rustc --version
           cargo --version
       - name: "Setup for linux"
