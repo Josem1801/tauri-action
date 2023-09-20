@@ -7,12 +7,12 @@ on:
         required: true
         default: "main"
       tag_short_version:
-        description: "The short version of deploy upstream, eg: use 23.8.1 instead of 2023.8.1"
+        description: "The short version of tauri-action upstream, eg: use 23.8.1 instead of 2023.8.1"
         required: true
         default: "23.8.1"
 
 env:
-  APP_NAME: deploy
+  APP_NAME: tauri-action
 
 jobs:
   build-depoly-files:
@@ -92,7 +92,7 @@ jobs:
           rustc --version
           cargo --version
       - name: "Setup for linux"
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubu ntu-latest'
         run: |
           # https://ubuntu.com/blog/statement-on-32-bit-i386-packages-for-ubuntu-19-10-and-20-04-lts
           # https://askubuntu.com/questions/1252062/how-to-install-libncurses-so-5-in-ubuntu-20-04
@@ -157,10 +157,10 @@ jobs:
           yarn tauri info
           yarn tauri build -t x86_64-unknown-linux-gnu -v -c "{\"package\":{\"version\":\"${{ github.event.inputs.tag_short_version }}\"}}"
           # check ERROR: Could not find dependency: libwebkit2gtk-4.0.so.37 
-          # docker run -t --rm -v `pwd`/src-tauri:/src-tauri liudonghua123/cross:x86_64-unknown-linux-gnu-tauri ls -l src-tauri/target/x86_64-unknown-linux-gnu/release/deploy src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/deploy.AppDir/usr/bin/deploy
-          # docker run -t --rm -v `pwd`/src-tauri:/src-tauri liudonghua123/cross:x86_64-unknown-linux-gnu-tauri file src-tauri/target/x86_64-unknown-linux-gnu/release/deploy src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/deploy.AppDir/usr/bin/deploy
-          # docker run -t --rm -v `pwd`/src-tauri:/src-tauri liudonghua123/cross:x86_64-unknown-linux-gnu-tauri ldd src-tauri/target/x86_64-unknown-linux-gnu/release/deploy src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/deploy.AppDir/usr/bin/deploy
-          # (cd src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage && OUTPUT=deploy_2.1.0_amd64.AppImage ./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir deploy.AppDir --plugin gtk --output appimage -v0 || true)
+          # docker run -t --rm -v `pwd`/src-tauri:/src-tauri liudonghua123/cross:x86_64-unknown-linux-gnu-tauri ls -l src-tauri/target/x86_64-unknown-linux-gnu/release/tauri-action src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/tauri-action.AppDir/usr/bin/tauri-action
+          # docker run -t --rm -v `pwd`/src-tauri:/src-tauri liudonghua123/cross:x86_64-unknown-linux-gnu-tauri file src-tauri/target/x86_64-unknown-linux-gnu/release/tauri-action src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/tauri-action.AppDir/usr/bin/tauri-action
+          # docker run -t --rm -v `pwd`/src-tauri:/src-tauri liudonghua123/cross:x86_64-unknown-linux-gnu-tauri ldd src-tauri/target/x86_64-unknown-linux-gnu/release/tauri-action src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/tauri-action.AppDir/usr/bin/tauri-action
+          # (cd src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage && OUTPUT=tauri-action_2.1.0_amd64.AppImage ./linuxtauri-action-x86_64.AppImage --appimage-extract-and-run --appdir tauri-action.AppDir --plugin gtk --output appimage -v0 || true)
           export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH
           export PKG_CONFIG_SYSROOT_DIR=/
           yarn tauri build -t i686-unknown-linux-gnu -v -c "{\"package\":{\"version\":\"${{ github.event.inputs.tag_short_version }}\"}}"
@@ -210,21 +210,21 @@ jobs:
 
       # the directory structure of build files
       # linux
-      # src-tauri/target/x86_64-unknown-linux-gnu/release/deploy
-      # src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/deploy_2.1.0_amd64.AppImage
-      # src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/deb/deploy_2.1.0_amd64.deb
+      # src-tauri/target/x86_64-unknown-linux-gnu/release/tauri-action
+      # src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/tauri-action_2.1.0_amd64.AppImage
+      # src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/deb/tauri-action_2.1.0_amd64.deb
       # macos
-      # src-tauri/target/x86_64-apple-darwin/release/deploy
-      # src-tauri/target/x86_64-apple-darwin/release/bundle/macos/deploy.app
-      # src-tauri/target/x86_64-apple-darwin/release/bundle/dmg/deploy_2.1.0_x64.dmg
-      # src-tauri/target/aarch64-apple-darwin/release/deploy
-      # src-tauri/target/aarch64-apple-darwin/release/bundle/macos/deploy.app
-      # src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/deploy_2.1.0_aarch64.dmg
+      # src-tauri/target/x86_64-apple-darwin/release/tauri-action
+      # src-tauri/target/x86_64-apple-darwin/release/bundle/macos/tauri-action.app
+      # src-tauri/target/x86_64-apple-darwin/release/bundle/dmg/tauri-action_2.1.0_x64.dmg
+      # src-tauri/target/aarch64-apple-darwin/release/tauri-action
+      # src-tauri/target/aarch64-apple-darwin/release/bundle/macos/tauri-action.app
+      # src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/tauri-action_2.1.0_aarch64.dmg
       # windows
-      # src-tauri/target/x86_64-pc-windows-msvc/release/deploy.exe
-      # src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi/deploy_2.1.0_x64.msi
-      # src-tauri/target/i686-pc-windows-msvc/release/deploy.exe
-      # src-tauri/target/i686-pc-windows-msvc/release/bundle/msi/deploy_2.1.0_x64.msi
+      # src-tauri/target/x86_64-pc-windows-msvc/release/tauri-action.exe
+      # src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi/tauri-action_2.1.0_x64.msi
+      # src-tauri/target/i686-pc-windows-msvc/release/tauri-action.exe
+      # src-tauri/target/i686-pc-windows-msvc/release/bundle/msi/tauri-action_2.1.0_x64.msi
       - name: Prepare release files on ${{matrix.label}}
         continue-on-error: true
         if: matrix.os == 'ubuntu-latest'
